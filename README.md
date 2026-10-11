@@ -32,8 +32,9 @@ and **ROS2 Humble** autonomy using a **dual-link architecture**:
 
 | Layer | Technology |
 |-------|------------|
-| Flight Controller | PX4 Autopilot |
+| Flight Controller | Pixhawk 6C Mini PX4 Autopilot |
 | Onboard Compute | NVIDIA Jetson Orin Nano |
+| Companion Link | UART (Pixhawk ↔ Jetson) |
 | Middleware | ROS2 Humble |
 | FC ↔ ROS2 Bridge | **uXRCE-DDS** (primary) · **MAVSDK / MAVLink** (secondary) |
 | Robot Model | URDF / xacro |
