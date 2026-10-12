@@ -75,6 +75,26 @@ ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 # ---------------------------------------------------------------------------
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
+# ---------------------------------------------------------------------------
+# 8. PX4 messages (for uXRCE-DDS topic types)
+#    PX4 exposes /fmu/out/* topics, but ROS2 needs matching message definitions
+#    (px4_msgs) to deserialize them. Version must match the PX4 firmware —
+#    px4io/px4-sitl:latest corresponds to PX4 v1.16.
+# ---------------------------------------------------------------------------
+RUN mkdir -p /workspace/px4_ws/src && \
+    cd /workspace/px4_ws/src && \
+    git clone https://github.com/PX4/px4_msgs.git && \
+    cd px4_msgs && \
+    git checkout release/1.16 && \
+    cd /workspace/px4_ws && \
+    . /opt/ros/humble/setup.sh && \
+    colcon build --packages-select px4_msgs
+
+RUN echo "source /workspace/px4_ws/install/setup.bash" >> /root/.bashrc
+
+# ---------------------------------------------------------------------------
+# 9. Working directory and default command
+# ---------------------------------------------------------------------------
 WORKDIR /workspace/zd550-jetson-uav
 
 CMD ["bash"]
